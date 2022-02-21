@@ -70,11 +70,38 @@ const register = async (req, res) => {
 }
 
 const professionalRegister = async (req, res) => {
-  res.status(201)
-    .json({
-      ok: true,
-      message: 'response message professional register'
+  const { firstName, lastName, email, password, rol = 'PROFESSIONAL', phone = null, about = null } = req.body
+
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
+    }
+
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      password: await User.hashPassword(password),
+      rol,
+      phone,
+      about,
     })
+
+    res.status(201)
+      .json({
+        ok: true,
+        message: 'response message register',
+        data: newUser
+      })
+  } catch (err) {
+    res.status(500)
+      .json({
+        ok: false,
+        message: err,
+      })
+  }
 }
 
 const logout = async (req, res) => {

@@ -22,8 +22,18 @@ router.post('/register',
     body('lastName').isLength({ min: 3 }).withMessage('El apellido debe tener al menos 3 caracteres'),
     body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
   ],
-  register)
-router.post('/p/register', professionalRegister)
+  register
+)
+router.post('/p/register',
+  [
+    body('email').isEmail().withMessage('El email no es válido'),
+    body('email').custom(emailAlreadyInUse),
+    body('firstName').isLength({ min: 3 }).withMessage('El nombre debe tener al menos 3 caracteres'),
+    body('lastName').isLength({ min: 3 }).withMessage('El apellido debe tener al menos 3 caracteres'),
+    body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
+  ],
+  professionalRegister
+)
 router.post('/logout', authenticateToken, logout)
 
 module.exports = router

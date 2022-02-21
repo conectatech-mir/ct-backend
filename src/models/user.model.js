@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const { Schema, model, Document } = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const userSchema = new Schema({
   firstName: {
@@ -29,14 +29,14 @@ const userSchema = new Schema({
   about: {
     type: String,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
+  ratings: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Rating',
+    }
+  ]
+}, {
+  timestamps: true,
 })
 
 userSchema.statics.hashPassword = async (password) => {
