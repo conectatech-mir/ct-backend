@@ -15,10 +15,12 @@ const postSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
   accepted: {
     type: Schema.Types.ObjectId,
     ref: 'Proposal',
+    required: true,
   },
 }, {
   timestamps: true,

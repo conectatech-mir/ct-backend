@@ -1,13 +1,5 @@
 const Rating = require('../models/rating.model')
 
-// TODO: Remove this function
-const list = async (req, res) => {
-  res.status(200).json({
-    ok: true,
-    data: await Rating.find({}).select('body value'),
-  })
-}
-
 const store = async (req, res) => {
   const { user, professional, post, body, value } = req.body;
 
@@ -40,6 +32,5 @@ const store = async (req, res) => {
 }
 
 module.exports = {
-  list,
   store,
 }
