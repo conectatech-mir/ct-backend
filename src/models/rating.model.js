@@ -9,6 +9,10 @@ const ratingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  post: {
+    type: Schema.Types.ObjectId,
+    ref: 'Post',
+  },
   body: {
     type: String,
     required: true,
