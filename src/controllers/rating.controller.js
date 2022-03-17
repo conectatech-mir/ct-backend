@@ -24,7 +24,7 @@ const store = async (req, res) => {
       message: 'Rating created successfully',
     })
   } catch (error) {
-    res.status(403).json({
+    res.status(500).json({
       ok: true,
       message: error.message,
     })

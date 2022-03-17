@@ -1,12 +1,10 @@
 const Post = require("../models/post.model");
-const Proposal = require("../models/proposal.model");
 
 const getById = async (req, res) => {
   const { id } = req.params;
 
   try {
     const post = await Post.findById(id).populate('accepted').select('title body user tags');
-    const proposals = await Proposal.find({ post: id }).populate('professional');
 
     if (!post) {
       return res.status(404).json({
@@ -15,14 +13,12 @@ const getById = async (req, res) => {
       });
     }
 
-    post.proposals = proposals;
-
     return res.status(200).json({
       ok: true,
       data: post
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       ok: false,
       message: error.message,
     })
@@ -52,7 +48,7 @@ const store = async (req, res) => {
     })
 
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       ok: false,
       message: error.message,
     })
