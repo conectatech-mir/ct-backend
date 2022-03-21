@@ -20,7 +20,6 @@ const postSchema = new Schema({
   accepted: {
     type: Schema.Types.ObjectId,
     ref: 'Proposal',
-    required: true,
   },
 }, {
   timestamps: true,

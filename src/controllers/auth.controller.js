@@ -17,7 +17,11 @@ const login = async (req, res) => {
       .json({
         ok: true,
         message: 'User logged in successfully',
-        token
+        data: {
+          id: user._id,
+          email: user.email,
+          token,
+        }
       })
   } catch (err) {
     res.status(400)
@@ -52,9 +56,6 @@ const register = async (req, res) => {
       .json({
         ok: true,
         message: 'User has been created successfully',
-        data: {
-          rol: newUser.rol,
-        }
       })
   } catch (err) {
     res.status(500)

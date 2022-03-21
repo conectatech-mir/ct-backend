@@ -16,19 +16,7 @@ const existsUserById = async (id) => {
   }
 }
 
-const isSameUser = (req, res, next) => {
-  if (req.body.user !== req.user.id) {
-    return res.status(403).json({
-      ok: false,
-      message: 'You do not have permissions to perform this action.'
-    })
-  }
-
-  next()
-}
-
 module.exports = {
   validateField,
   existsUserById,
-  isSameUser,
 }

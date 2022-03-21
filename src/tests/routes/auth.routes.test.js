@@ -3,7 +3,7 @@ const DB = require('../../config/db')
 const app = require('../../app')
 const User = require('../../models/user.model')
 
-describe('User Auth', () => {
+describe('Auth', () => {
   beforeAll(async () => {
     await DB.connect()
   })
@@ -87,6 +87,7 @@ describe('User Auth', () => {
 
     expect(res.statusCode).toBe(201)
     expect(res.body.message).toBe('User has been created successfully')
+    expect(await User.find().count()).toBe(1)
   })
 
   it('should log in if the credentials are correct', async () => {
@@ -106,7 +107,7 @@ describe('User Auth', () => {
 
     expect(res.statusCode).toBe(200)
     expect(res.body.message).toBe('User logged in successfully')
-    expect(res.body).toHaveProperty('token')
+    expect(res.body.data).toHaveProperty('token')
   })
 
   it('should not log in if the details are incorrect', async () => {
