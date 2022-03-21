@@ -6,12 +6,6 @@ const login = async (req, res) => {
   const { email } = req.body
 
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
-    }
-
     const user = await User.findOne({ email })
 
     const token = jwt.sign({
@@ -22,7 +16,7 @@ const login = async (req, res) => {
     res.status(200)
       .json({
         ok: true,
-        message: 'response message login',
+        message: 'User logged in successfully',
         token
       })
   } catch (err) {
@@ -57,8 +51,10 @@ const register = async (req, res) => {
     res.status(201)
       .json({
         ok: true,
-        message: 'response message register',
-        data: newUser
+        message: 'User has been created successfully',
+        data: {
+          rol: newUser.rol,
+        }
       })
   } catch (err) {
     res.status(500)
