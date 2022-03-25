@@ -6,7 +6,10 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "jest",
+    "test:watch": "yarn test --watch",
+    "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -19,7 +22,9 @@
     "mongoose": "^6.2.2"
   },
   "devDependencies": {
+    "jest": "^27.5.1",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }

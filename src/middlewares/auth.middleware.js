@@ -18,9 +18,9 @@ const userWithEmailExist = (email) => {
 }
 
 const userPasswordMatch = (password, { req }) => {
-  return User.findOne({ email: req.body.email }).then(user => {
-    if (!user.comparePassword(password, user.password)) {
-      return Promise.reject('Usuario o contraseña incorrectos')
+  return User.findOne({ email: req.body.email }).then(async (user) => {
+    if (! await user.comparePassword(password, user.password)) {
+      return Promise.reject('Wrong username or password')
     }
   })
 }
@@ -33,8 +33,6 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, process.env.SECRET_KEY || 'secret', (err, user) => {
     if (err) return res.status(403).json({ error: 'Forbidden' })
-
-    req.user = user
 
     next()
   })
