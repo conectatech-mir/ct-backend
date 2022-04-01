@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
+const cloudinary = require('../config/cloudinary')
 const User = require("../models/user.model")
 
 const login = async (req, res) => {
@@ -35,35 +36,41 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   const { firstName, lastName, email, password, rol = 'USER', phone = null, about = null } = req.body
 
-  try {
-    const errors = validationResult(req);
+  // cloudinary.uploader.upload(req.body.avatar)
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
-    }
+  res.status(200).json({
+    data: req.body,
+  });
 
-    const newUser = await User.create({
-      firstName,
-      lastName,
-      email,
-      password: await User.hashPassword(password),
-      rol,
-      phone,
-      about,
-    })
+  // try {
+  //   const errors = validationResult(req);
 
-    res.status(201)
-      .json({
-        ok: true,
-        message: 'User has been created successfully',
-      })
-  } catch (err) {
-    res.status(500)
-      .json({
-        ok: false,
-        message: err,
-      })
-  }
+  //   if (!errors.isEmpty()) {
+  //     return res.status(400).json({ errors: errors.array() })
+  //   }
+
+  //   const newUser = await User.create({
+  //     firstName,
+  //     lastName,
+  //     email,
+  //     password: await User.hashPassword(password),
+  //     rol,
+  //     phone,
+  //     about,
+  //   })
+
+  //   res.status(201)
+  //     .json({
+  //       ok: true,
+  //       message: 'User has been created successfully',
+  //     })
+  // } catch (err) {
+  //   res.status(500)
+  //     .json({
+  //       ok: false,
+  //       message: err,
+  //     })
+  // }
 }
 
 const professionalRegister = async (req, res) => {

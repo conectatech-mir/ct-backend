@@ -1,5 +1,6 @@
 const express = require('express')
-const { body } = require('express-validator')
+const { body, check } = require('express-validator')
+const formData = require('../middlewares/formData')
 const { login, register, logout, professionalRegister } = require('../controllers/auth.controller')
 const { emailAlreadyInUse, userWithEmailExist, userPasswordMatch, authenticateToken } = require('../middlewares/auth.middleware')
 const { validateField } = require('../middlewares/user.middleware')
@@ -16,14 +17,16 @@ router.post('/login',
   ],
   login
 )
+
 router.post('/register',
   [
-    body('email').isEmail().withMessage('E-mail is not valid'),
-    body('email').custom(emailAlreadyInUse),
-    body('firstName').isLength({ min: 3 }).withMessage('Firstname must be at least 3 chars long'),
-    body('lastName').isLength({ min: 3 }).withMessage('Lastname must be at least 3 chars long'),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 chars long'),
-    validateField
+    // check('email', 'E-mail is not valid').isEmail(),
+    // body('email').custom(emailAlreadyInUse),
+    // body('firstName').isLength({ min: 3 }).withMessage('Firstname must be at least 3 chars long'),
+    // body('lastName').isLength({ min: 3 }).withMessage('Lastname must be at least 3 chars long'),
+    // body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 chars long'),
+    // formData,
+    // validateField
   ],
   register
 )
