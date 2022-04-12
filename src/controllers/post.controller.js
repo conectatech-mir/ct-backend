@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Post = require("../models/post.model");
 
 const getById = async (req, res) => {
@@ -59,8 +60,16 @@ const store = async (req, res) => {
   }
 }
 
-const getAllPosts = async(req, res) => {
+const getAllPostsForProfesional = async(req, res) => {
   const posts = await Post.find({"accepted": {$exists:false}});
+  return res.status(200).json({
+    posts
+  })
+}
+
+const getAllPostsForUsuario = async(req, res) => {
+  const { id } = req.params;
+  const posts = await Post.find({user: mongoose.Types.ObjectId(id)});
   return res.status(200).json({
     posts
   })
@@ -69,5 +78,6 @@ const getAllPosts = async(req, res) => {
 module.exports = {
   store,
   getById,
-  getAllPosts
+  getAllPostsForProfesional,
+  getAllPostsForUsuario
 }
