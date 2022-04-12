@@ -26,14 +26,16 @@ const getById = async (req, res) => {
 }
 
 const store = async (req, res) => {
-  const { user, title, body, tags } = req.body;
+  const { user, title, body, tags, price, accepted} = req.body;
 
   try {
     const post = await Post.create({
       user,
       title,
       body,
+      price,
       tags: tags.split(','),
+      accepted
     });
 
     return res.status(201).json({
@@ -43,7 +45,9 @@ const store = async (req, res) => {
         id: post._id,
         title: post.title,
         body: post.body,
+        price: post.price,
         tags: post.tags,
+        accepted: post.accepted
       }
     })
 
@@ -55,7 +59,15 @@ const store = async (req, res) => {
   }
 }
 
+const getAllPosts = async(req, res) => {
+  const posts = await Post.find({"accepted": {$exists:false}});
+  return res.status(200).json({
+    posts
+  })
+}
+
 module.exports = {
   store,
-  getById
+  getById,
+  getAllPosts
 }

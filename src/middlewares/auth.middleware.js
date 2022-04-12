@@ -27,11 +27,13 @@ const userPasswordMatch = (password, { req }) => {
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization']
+  // console.log(authHeader);
   const token = authHeader && authHeader.split(' ')[1]
-
-  if (token == null) return res.status(401).json({ error: 'Unauthorized' })
+  console.log(token);
+  if (token === null) return res.status(401).json({ error: 'Unauthorized' })
 
   jwt.verify(token, process.env.SECRET_KEY || 'secret', (err, user) => {
+    console.log(err);
     if (err) return res.status(403).json({ error: 'Forbidden' })
 
     next()

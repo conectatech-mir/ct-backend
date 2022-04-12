@@ -1,10 +1,12 @@
 const express = require('express')
 const { check, body } = require('express-validator')
-const { store, getById } = require('../controllers/post.controller')
+const { store, getById, getAllPosts } = require('../controllers/post.controller')
 const { authenticateToken } = require('../middlewares/auth.middleware')
 const { validateField } = require('../middlewares/user.middleware')
 
 const router = express.Router()
+
+router.get('/', getAllPosts)
 
 router.post('/', [
   authenticateToken,
