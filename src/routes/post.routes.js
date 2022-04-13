@@ -1,10 +1,14 @@
 const express = require('express')
 const { check, body } = require('express-validator')
-const { store, getById, getAllPostsForUsuario, getAllPostsForProfesional } = require('../controllers/post.controller')
+const { store, getById, getAllPostsForUsuario, getAllPostsForProfesional, getAllPosts, getPostAccepted, getPostAcceptedPending } = require('../controllers/post.controller')
 const { authenticateToken } = require('../middlewares/auth.middleware')
 const { validateField } = require('../middlewares/user.middleware')
 
 const router = express.Router()
+
+router.get('/posts', getPostAccepted)
+
+router.get('/posts', getPostAcceptedPending)
 
 router.get('/postProfesional', getAllPostsForProfesional)
 

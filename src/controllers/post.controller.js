@@ -60,6 +60,13 @@ const store = async (req, res) => {
   }
 }
 
+const getPostAccepted = async(req, res) => {
+  const posts = await Post.find({"accepted": {$exists:true}, user: mongoose.Types.ObjectId(id)});
+  return res.status(200).json({
+    posts
+  })
+}
+
 const getAllPostsForProfesional = async(req, res) => {
   const posts = await Post.find({"accepted": {$exists:false}});
   return res.status(200).json({
@@ -78,6 +85,7 @@ const getAllPostsForUsuario = async(req, res) => {
 module.exports = {
   store,
   getById,
+  getPostAccepted,
   getAllPostsForProfesional,
   getAllPostsForUsuario
 }
