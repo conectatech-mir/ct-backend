@@ -16,7 +16,7 @@ const login = async (req, res) => {
         id: user._id,
       },
       process.env.SECRET_KEY || "secret",
-      { expiresIn: "1h" }
+      { expiresIn: "1d" }
     );
 
     res.status(200).json({
@@ -25,6 +25,7 @@ const login = async (req, res) => {
       data: {
         id: user._id,
         email: user.email,
+        rol: user.rol,
         token,
       },
     });
