@@ -117,7 +117,8 @@ const UpdatePostOffered = async (req, res) => {
       return res.status(404).json({ message: `user not found with id: ${id}` });
     }
     const UserCLient = await User.findById(updatedPost.user);
-    await sendEmail(UserCLient);
+    const ProfesionalClient = await User.findById(updatedPost.accepted); 
+    await sendEmail(UserCLient, ProfesionalClient);
     return res.status(200).json(updatedPost);
   } catch (error) {
     return res.status(500).json({ error: error.message });

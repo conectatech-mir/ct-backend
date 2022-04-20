@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
-const { sendEmail } = require("../middlewares/sendGridMail.middleware");
+// const { sendEmail } = require("../middlewares/sendGridMail.middleware");
 
 const login = async (req, res) => {
   const { email } = req.body;
@@ -65,7 +65,7 @@ const register = async (req, res) => {
       about,
     });
 
-    await sendEmail(newUser);
+    // await sendEmail(newUser);
 
     res.status(201).json({
       ok: true,
