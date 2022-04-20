@@ -1,5 +1,7 @@
 const { default: mongoose } = require("mongoose");
+const { sendEmail } = require("../middlewares/sendGridMail.middleware");
 const Post = require("../models/post.model");
+const User = require("../models/user.model");
 
 const getById = async (req, res) => {
   const { id } = req.params;
@@ -84,7 +86,10 @@ const getPostAcceptedPending = async (req, res) => {
 };
 
 const getAllPostsForProfesional = async (req, res) => {
-  const posts = await Post.find({ accepted: { $exists: false } });
+  const posts = await Post.find({ accepted: { $exists: false } }).populate(
+    "user"
+  );
+
   return res.status(200).json({
     posts,
   });
@@ -103,9 +108,15 @@ const UpdatePostOffered = async (req, res) => {
     const updatedPost = await Post.findByIdAndUpdate(id, req.body, {
       new: true,
     });
+    console.log(
+      "🚀 ~ file: post.controller.js ~ line 110 ~ UpdatePostOffered ~ updatedPost",
+      updatedPost
+    );
     if (!updatedPost) {
       return res.status(404).json({ message: `user not found with id: ${id}` });
     }
+    const UserCLient = await User.findById(updatedPost.user);
+    await sendEmail(UserCLient);
     return res.status(200).json(updatedPost);
   } catch (error) {
     return res.status(500).json({ error: error.message });
