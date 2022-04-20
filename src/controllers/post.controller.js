@@ -86,9 +86,10 @@ const getPostAcceptedPending = async (req, res) => {
 };
 
 const getAllPostsForProfesional = async (req, res) => {
-  const posts = await Post.find({ accepted: { $exists: false } }).populate(
-    "user"
-  );
+  const posts = await Post.find({ accepted: { $exists: false } }).populate({
+    path: "user",
+    select: "firstName lastName email",
+  });
 
   return res.status(200).json({
     posts,
