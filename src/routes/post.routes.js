@@ -8,6 +8,7 @@ const {
   getPostAccepted,
   getPostAcceptedPending,
   UpdatePostOffered,
+  getAllPostsForProfessionalAcepted,
 } = require("../controllers/post.controller");
 const { authenticateToken } = require("../middlewares/auth.middleware");
 const { validateField } = require("../middlewares/user.middleware");
@@ -19,6 +20,7 @@ router.get("/postsAccepted/:id", getPostAccepted);
 router.get("/postsPending/:id", getPostAcceptedPending);
 
 router.get("/postProfesional", getAllPostsForProfesional);
+router.get("/postProfesionalAccepted/:id", getAllPostsForProfessionalAcepted);
 
 router.get("/postUsuario/:id", getAllPostsForUsuario);
 router.patch("/postoffered/:id", UpdatePostOffered);

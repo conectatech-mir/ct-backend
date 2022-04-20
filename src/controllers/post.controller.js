@@ -68,7 +68,11 @@ const getPostAccepted = async (req, res) => {
   const posts = await Post.find({
     accepted: { $exists: true },
     user: mongoose.Types.ObjectId(id),
-  }).populate("accepted", "email");
+  }).populate({
+    path: "accepted",
+    select: "firstName lastName email",
+  });
+
   return res.status(200).json({
     posts,
   });
@@ -95,10 +99,27 @@ const getAllPostsForProfesional = async (req, res) => {
     posts,
   });
 };
+const getAllPostsForProfessionalAcepted = async (req, res) => {
+  const { id } = req.params;
+  const posts = await Post.find({
+    accepted: mongoose.Types.ObjectId(id),
+  }).populate({
+    path: "user",
+    select: "firstName lastName email",
+  });
+  return res.status(200).json({
+    posts,
+  });
+};
 
 const getAllPostsForUsuario = async (req, res) => {
   const { id } = req.params;
-  const posts = await Post.find({ user: mongoose.Types.ObjectId(id) });
+  const posts = await Post.find({ user: mongoose.Types.ObjectId(id) }).populate(
+    {
+      path: "accepted",
+      select: "firstName lastName email",
+    }
+  );
   return res.status(200).json({
     posts,
   });
@@ -109,15 +130,11 @@ const UpdatePostOffered = async (req, res) => {
     const updatedPost = await Post.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    console.log(
-      "🚀 ~ file: post.controller.js ~ line 110 ~ UpdatePostOffered ~ updatedPost",
-      updatedPost
-    );
     if (!updatedPost) {
       return res.status(404).json({ message: `user not found with id: ${id}` });
     }
     const UserCLient = await User.findById(updatedPost.user);
-    const ProfesionalClient = await User.findById(updatedPost.accepted); 
+    const ProfesionalClient = await User.findById(updatedPost.accepted);
     await sendEmail(UserCLient, ProfesionalClient);
     return res.status(200).json(updatedPost);
   } catch (error) {
@@ -132,4 +149,5 @@ module.exports = {
   getAllPostsForProfesional,
   getAllPostsForUsuario,
   UpdatePostOffered,
+  getAllPostsForProfessionalAcepted,
 };
